@@ -1,9 +1,15 @@
 document.getElementById('get-weather').addEventListener('click', function() {
     const city = document.getElementById('city').value;
     const apiKey = 'c63e628ffbcaf8cb671797db6c5a0cb7'; // Replace with your actual API key
-    const apiUrl = 'api.openweathermap.org/data/2.5/weather?q=London,uk&APPID=c63e628ffbcaf8cb671797db6c5a0cb7';
+    const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}`;
+
     fetch(apiUrl)
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
         .then(data => {
             const weatherResult = document.getElementById('weather-result');
             if (data.cod === 200) {
